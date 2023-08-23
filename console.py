@@ -229,7 +229,7 @@ class HBNBCommand(cmd.Cmd):
         """Prints all string representation of all instances"""
         args = arg.split()
         obj_list = []
-        
+
         if args and args[0] in HBNBCommand.classes:
             cls_name = args[0]
             if cls_name in self.classes:
