@@ -1,0 +1,5 @@
+*.json
+main_delete.py
+test_params_create
+__pycache__/
+push
