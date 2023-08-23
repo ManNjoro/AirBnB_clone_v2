@@ -6,6 +6,18 @@ from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship, backref
 import models
 
+if models.HBNB_TYPE_STORAGE == 'db':
+    metadata = Base.metadata
+    place_amenity = Table(
+            'place_amenity', metadata,
+            Column(
+                'place_id', String(60), ForeignKey('places.id'),
+                primary_key=True, nullable=False),
+            Column(
+                'amenity_id', String(60), ForeignKey('amenities.id'),
+                primary_key=True, nullable=False)
+            )
+
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -21,6 +33,9 @@ class Place(BaseModel, Base):
         price_by_night = Column(Integer, default=0, nullable=False)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
+        reviews = relationship('Review', backref='place')
+        amenities = relationship(
+                'Amenity', secondary='place_amenity', viewonly=False)
     else:
         city_id = ""
         user_id = ""
