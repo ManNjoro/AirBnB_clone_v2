@@ -21,7 +21,7 @@ echo "server {
       internal;
     }
 	location /hbnb_static {
-		alias /data/web_static/current/
+		alias /data/web_static/current/;
 	}
 }" | sudo tee /etc/nginx/sites-available/default
 sudo service nginx restart
