@@ -26,10 +26,10 @@ def do_deploy(archive_path):
     """distributes an archive to the web servers"""
     if exists(archive_path) is False:
         return False
+    file_name = archive_path.split("/")[-1]
+    no_ext = file_name.split(".")[0]
+    path = "/data/web_static/releases/"
     try:
-        file_name = archive_path.split("/")[-1]
-        no_ext = file_name.split(".")[0]
-        path = "/data/web_static/releases/"
         put(archive_path, '/tmp/')
         run('mkdir -p {}{}/'.format(path, no_ext))
         run('tar -xzf /tmp/{} -C {}{}/'.format(file_name, path, no_ext))
