@@ -1,60 +1,32 @@
 #!/usr/bin/python3
 """
-Script generates a .tgz archive from web_static folder
+Fabric script based on the file 1-pack_web_static.py that distributes an
+archive to the web servers
 """
-from fabric.operations import local, run, put, env
+
+from fabric.api import put, run, env
+from os.path import exists
 from datetime import datetime
-import os
-
-
 env.hosts = ['54.85.129.38', '18.206.208.173']
-env.user = 'ubuntu'
-
-
-def do_pack():
-    """
-    function creates a .tgz archive
-    """
-
-    name = "./versions/web_static_{}.tgz"
-    name = name.format(datetime.now().strftime("%Y%m%d%H%M%S"))
-    local("mkdir -p versions")
-    create = local("tar -cvzf {} web_static".format(name))
-    if create.succeeded:
-        return name
-    else:
-        return None
+env.user = "ubuntu"
 
 
 def do_deploy(archive_path):
-    """
-    function to dist to web server
-    """
-
-    if not os.path.exists(archive_path):
+    """distributes an archive to the web servers"""
+    if exists(archive_path) is False:
         return False
-    if not put(archive_path, "/tmp/").succeeded:
+    file_name = archive_path.split("/")[-1]
+    no_ext = file_name.split(".")[0]
+    path = "/data/web_static/releases/"
+    try:
+        put(archive_path, '/tmp/')
+        run('mkdir -p {}{}/'.format(path, no_ext))
+        run('tar -xzf /tmp/{} -C {}{}/'.format(file_name, path, no_ext))
+        run('rm /tmp/{}'.format(file_name))
+        run('mv {0}{1}/web_static/* {0}{1}/'.format(path, no_ext))
+        run('rm -rf {}{}/web_static'.format(path, no_ext))
+        run('rm -rf /data/web_static/current')
+        run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
+        return True
+    except Exception as e:
         return False
-    print("Hello")
-    filename = archive_path[9:]
-    foldername = "/data/web_static/releases/" + filename[:-4]
-    filename = "/tmp/" + filename
-    if not run('mkdir -p {}'.format(foldername)).succeeded:
-        return False
-    if not run('tar -xzf {} -C {}'.format(filename, foldername)).succeeded:
-        return False
-    if not run('rm {}'.format(filename)).succeeded:
-        return False
-    if not run('mv {}/web_static/* {}'.format(foldername,
-                                              foldername)).succeeded:
-        return False
-    if not run('rm -rf {}/web_static'.format(foldername)).succeeded:
-        return False
-    if not run('rm -rf /data/web_static/current').succeeded:
-        return False
-    return run('ln -s {} /data/web_static/current'.format(
-        foldername)).succeeded
-
-
-if __name__ == "__main__":
-    do_pack()
