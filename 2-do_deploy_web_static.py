@@ -12,6 +12,7 @@ env.user = 'ubuntu'
 
 
 def do_deploy(archive_path):
+    """deploys to remote server """
     if not exists(archive_path):
         return False
 
