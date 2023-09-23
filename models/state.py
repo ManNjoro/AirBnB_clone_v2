@@ -16,11 +16,6 @@ class State(BaseModel, Base):
     else:
         name = ''
 
-    def __init__(self, *args, **kwargs):
-        """initializes state"""
-        super().__init__(*args, **kwargs)
-
-    if models.HBNB_TYPE_STORAGE != 'db':
         @property
         def cities(self):
             from models import storage

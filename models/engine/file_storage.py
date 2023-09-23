@@ -60,3 +60,7 @@ class FileStorage:
         """Deletes obj from __objects if it's inside"""
         if obj is not None and obj.id in self.__objects:
             del self.__objects[obj.id]
+
+    def close(self):
+        """Deserializes JSON file to objects"""
+        self.reload()
