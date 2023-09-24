@@ -18,7 +18,7 @@
 	border-right: 1px solid #DDDDDD;
 }
 
-.filter_amenities {
+.amenities {
 	display: inline;
 	vertical-align: middle;
 	height: 100%;
@@ -31,7 +31,7 @@
 .popover {
 	list-style-type: none;
 	display: none;
-	background-color: #FAFAFA;
+	background-color: rgb(248, 248, 248);
 	width: 100%;
 
 	margin-left: -1px;
@@ -40,15 +40,18 @@
 
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;
-	overflow: scroll;
+	overflow: auto;
 	max-height: 300px;
+	z-index: 999;
+	position: relative;
 }
 
 .locations:hover .popover {
 	display: inline-block;
 }
 
-.filter_amenities:hover .popover {
+
+.amenities:hover .popover {
 	display: inline-block;
 }
 
@@ -58,8 +61,6 @@ ul {
 	padding-bottom: 20px;
 }
 
-li {
-}	
 
 h2 {
 	font-size: 16px;
