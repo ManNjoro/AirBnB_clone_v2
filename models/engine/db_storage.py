@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 DB storage class initialization
 """
