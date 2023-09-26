@@ -7,7 +7,7 @@ archive to the web servers
 from fabric.api import put, run, env
 from os.path import exists
 from datetime import datetime
-env.hosts = ['35.153.93.135','54.164.125.110']
+env.hosts = ['35.153.93.135', '54.164.125.110']
 env.user = "ubuntu"
 
 
