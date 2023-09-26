@@ -6,7 +6,7 @@ distributes an archive to the web servers
 
 from fabric.api import put, run, env, local
 from os.path import exists, isdir
-env.hosts = ['54.85.129.38', '18.206.208.173']
+env.hosts = ['35.153.93.135', '54.164.125.110']
 
 
 def do_pack():
