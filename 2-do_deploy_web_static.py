@@ -7,7 +7,7 @@ archive to the web servers
 from fabric.api import put, run, env
 from os.path import exists
 from datetime import datetime
-env.hosts = ['54.85.129.38', '18.206.208.173']
+env.hosts = ['35.153.93.135','54.164.125.110']
 env.user = "ubuntu"
 
 
@@ -15,10 +15,10 @@ def do_deploy(archive_path):
     """distributes an archive to the web servers"""
     if exists(archive_path) is False:
         return False
-    file_name = archive_path.split("/")[-1]
-    no_ext = file_name.split(".")[0]
-    path = "/data/web_static/releases/"
     try:
+        file_name = archive_path.split("/")[-1]
+        no_ext = file_name.split(".")[0]
+        path = "/data/web_static/releases/"
         put(archive_path, '/tmp/')
         run('mkdir -p {}{}/'.format(path, no_ext))
         run('tar -xzf /tmp/{} -C {}{}/'.format(file_name, path, no_ext))
